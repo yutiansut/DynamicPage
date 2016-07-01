@@ -94,4 +94,41 @@ var newDiv=document.createElement("div");
 };
 
 
+  function createDom(domId){
+  
+  createDiv("aa",domId,"domclass");
+  var dom=document.getElementById(domId);
+  var domstyle=dom.style;
+  dom.innerHTML=domId;
+  domstyle.textAlign="center";
+  dom.style.height="500px";
+  dom.style.width="500px";
+  domstyle.zIndex=1;
+  domstyle.backgroundColor="gray";
+  domstyle.position="relative";
+  domstyle.float="left";
+  domstyle.draggable="true";
+  domstyle.cursor="hand"; 
+  domstyle.border="1px solid #F00";  
+
+  dom.onmousedown=function(){
+	  alert(domstyle.leftmargin)
+	  
+
+  };
+  /**domstyle.events=expression(ondragstart=function(){
+	 // dom.offsetLeft=dom.offsetLeft+10px; 
+  },
+  ondrag=function(){});
+  */
+  
+  alert('left'+dom.offsetLeft+'<br>Top'+dom.offsetTop+'<br>height'+dom.offsetHeight)
+  
+  
+  
+  
+  
+  
+  }
+
 

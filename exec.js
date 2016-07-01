@@ -2,7 +2,7 @@
   
   
   //随机颜色的文字
-  randomColorText(15,'随机彩色文字');
+  randomColorText(18,'随机彩色文字');
   
   
   //创建div
@@ -32,13 +32,9 @@
   document.getElementById("appendDiv02").style.color="blue";
   
   //建立一个div的dom
-  createDiv("","dom01","domclass01");
-  var dom01=document.getElementById("dom01");
-  var dom01style=dom01.style;
-  dom01.style.height="500px";
-  dom01.style.width="500px";
-  dom01.style.width="500px";
-  
+  createDom("d1");
+ // createDom("d2");
+  //dom01.ondrag=dom01.-10px;
   
   //
   //
