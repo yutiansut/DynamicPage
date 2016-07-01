@@ -1,8 +1,18 @@
-window.addEventListener('load', function(e) {
-  document.querySelector('#test').innerHTML = '随机颜色js';
-}, false);
 
 
+function randomColorText(num,texts){
+
+i=0;
+  
+
+do
+{
+	
+document.write("<div style='color:rgb("+Math.round(255*Math.random())+","+Math.round(255*Math.random())+","+Math.round(255*Math.random())+")';>"+i+texts+"</div></br>");
+i++;
+}
+while (i<num);
+};
 
 function MakeForm(e)  
 {  
@@ -59,7 +69,7 @@ var newDiv=document.createElement("div");
 function createSpan(contentx,idnamex,appendId){
 	var newSpan=document.createElement("span");
 	var App=appendId;
-	alert(appendId)
+	//alert(appendId);
 	newSpan.id=idnamex;
 	//newSpan.className=classNamex;
 	newSpan.innerHTML=contentx;
@@ -69,7 +79,8 @@ function createSpan(contentx,idnamex,appendId){
 	
 };
 
-function appendDiv(content,idname,classname,appendId){
+
+function appendDiv(content,idname,appendId){
 var newDiv=document.createElement("div");
   /**ss.style.color=red;
   ss.style.font-size=50pt;*/
@@ -84,17 +95,3 @@ var newDiv=document.createElement("div");
 
 
 
-function xunhuan(b){
-
-
-i=0;
-  
-
-do
-{
-	
-document.write("<div style='color:rgb("+Math.round(255*Math.random())+","+Math.round(255*Math.random())+","+Math.round(255*Math.random())+")';>"+i+"陈羿擎特别厉害</div></br>");
-i++;
-}
-while (i<b);
-};
