@@ -414,12 +414,13 @@ These are based on the object name plus the handle ID.
 			
             divx.className = "drsElement drsMoveHandle";
 			
-			divx.style.cssText="left: 150px; top: 280px; width: 50px; height: 100px;background: #DFC; text-align: center;";
+			divx.style.cssText="left: 250px; top: 400px; width: 150px; height: 100px;background: #DFC; text-align: center;";
 			
 			
 			divx.id=testid;
 			
 			divx.contentEditable="true";
+			
 			//alert(i)
 			
             divx.innerHTML = "this is a div"+i; //设置div里面的内容
@@ -428,25 +429,25 @@ These are based on the object name plus the handle ID.
 			var divy = document.createElement("div"); //创建一个DIV
 			divy.className = "drsElement";
 			var heightdivy=document.getElementById("div"+i).style.height;
-			alert(heightdivy)
+			
 			var widthdivy=document.getElementById("div"+i).style.width;
-			alert(widthdivy)
-			divy.style="width=widthdivy;height=heightdivy;"; 
+			
+			divy.style.height="79px";
 			divy.id="divy"+i;
 			
 			document.getElementById(testid).appendChild(divy);
-			var inp= document.createElement("input");
+			var inp= document.createElement("textarea");
 			var heightinp=document.getElementById("divy"+i).style.height;
-			alert(heightinp)
+			
 			var widthinp=document.getElementById("divy"+i).style.width;
-			alert(widthinp)
+			
 			inp.setAttribute('type', 'text');
 			inp.name="sample";
 			inp.border="0";
 			inp.value="aaaa";
 			inp.id="inp"+i;
-			inp.style="width=widthinp;height=heightinp;" ;
-			
+			inp.style.height="78px" ;
+			inp.style.width="150px";
 			document.getElementById("divy"+i).appendChild(inp);
 			document.getElementById("inp"+i).style.padding="0px";
 			document.getElementById("inp"+i).style.margin="0px";
