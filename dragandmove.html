@@ -5,7 +5,7 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
     <title>DRAG AND RESIZE</title>
 
-
+	<script src="https://code.jquery.com/jquery-3.0.0.js"   integrity="sha256-jrPLZ+8vDxt2FnE1zvZXCkCcebI/C8Dt5xyaQBjxQIo="   crossorigin="anonymous"></script>
     <script>
 	
 	
@@ -488,10 +488,62 @@ These are based on the object name plus the handle ID.
 			}
 			mess=mess+'}]}';
 			alert(mess)
+			
+			$.post("http://127.0.0.1:80800/",mess,function(data,status){
+			alert("Data: " + data + "\nStatus: " + status);
+			});
 		
-		}
+	
+			
+			$.cookie('the_cookie', mess, { expires: 7 , path: "/" ,domain: ‘yutiansut.com’, secure: true});
+			
+			var bbb = $.cookie('the_cookie'); 
+			alert(bbb)
+			}
 		
 		};
+		
+		
+		
+		function getCookie(c_name)
+{
+if (document.cookie.length>0)
+  {
+  c_start=document.cookie.indexOf(c_name + "=")
+  if (c_start!=-1)
+    { 
+    c_start=c_start + c_name.length+1 
+    c_end=document.cookie.indexOf(";",c_start)
+    if (c_end==-1) c_end=document.cookie.length
+    return unescape(document.cookie.substring(c_start,c_end))
+    } 
+  }
+return ""
+}
+
+function setCookie(c_name,value,expiredays)
+{
+var exdate=new Date()
+exdate.setDate(exdate.getDate()+expiredays)
+document.cookie=c_name+ "=" +escape(value)+
+((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
+}
+
+function checkCookie()
+{
+username=getCookie('username')
+if (username!=null && username!="")
+  {alert('Welcome again '+username+'!')}
+else 
+  {
+  username=prompt('Please enter your name:',"")
+  if (username!=null && username!="")
+    {
+    setCookie('username',username,365)
+    }
+  }
+}
+		
 		function delitem(){
 		  
 		   var my = document.getElementById(idx);
@@ -507,7 +559,7 @@ These are based on the object name plus the handle ID.
 <body style="font: 13px/20px sans-serif; background-color: #FFF contenteditable:true">
 
     <div style="text-align: center">
-        <h1 style="font: 32px/48px sans-serif">这是本宝宝的第一个拖拽加拉伸 </h1>
+        <h1 style="font: 32px/48px sans-serif">拖拽面板</h1>
 
 
     </div>
@@ -515,26 +567,25 @@ These are based on the object name plus the handle ID.
 
     <div class="drsElement" style="left: 50px; top: 150px; width: 250px; height: 120px;
 background: #CDF; text-align: center">
-        <div class="drsMoveHandle">A</div>
+        <div class="drsMoveHandle">实例</div>
         
     </div>
 
     <div class="drsElement" style="left: 20px; top: 300px; width: 150px; height: 200px;
 background: #FDC; text-align: center">
-        <div class="drsMoveHandle">B</div>
-        Content
-		<input type="text">aaa</input>
+        <div class="drsMoveHandle">公告</div>
+        
     </div>
 
     <div class="drsElement drsMoveHandle" contentEditable="true" style="left: 150px; top: 280px; width: 50px; height: 100px;
 background: #DFC; text-align: center">
-        视频A
+        说明
     </div>
     <button onclick="createDIV(1)">new</button>
 	<button onclick="saveContent(1)">save</button>
 	<button onclick="delitem()">delete</button>
     <script type="text/javascript">
-       
+		
     </script>
 
 
