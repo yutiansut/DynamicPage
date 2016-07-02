@@ -7,6 +7,8 @@
 
 
     <script>
+	
+	
         if (typeof addEvent != 'function') {
             var addEvent = function(o, t, f, l) {
                 var d = 'addEventListener',
@@ -98,6 +100,9 @@
                 if (!document.getElementById || !enabled) return;
                 if (newElement && (newElement != element) && enabled) {
                     element = newElement;
+					getElementId(element.id);
+					//alert(element.id)
+					//document.write(element.id);
                     element.style.zIndex = ++zIndex;
                     if (this.resizeHandleSet) this.resizeHandleSet(element, true);
                     elmX = parseInt(element.style.left);
@@ -108,6 +113,9 @@
                 }
             }
         };
+		function getElementId(id){
+			idx=id;
+		};
         DragResize.prototype.deselect = function(delHandles) {
             with(this) {
                 if (!document.getElementById || !enabled) return;
@@ -392,10 +400,14 @@ These are based on the object name plus the handle ID.
         dragresize.ondragstart = function(isResize) {};
         dragresize.ondragmove = function(isResize) {};
         dragresize.ondragend = function(isResize) {};
+		
         dragresize.ondragblur = function() {};
         // Finally, you must apply() your DragResize object to a DOM node; all children of this
         // node will then be made draggable. Here, I'm applying to the entire document.
         dragresize.apply(document);
+		
+		
+		
       function createDIV(i) {
 			var testid="div"+i;
 			//alert(i)
@@ -413,9 +425,10 @@ These are based on the object name plus the handle ID.
 			
 			
             divx.className = "drsElement drsMoveHandle";
-			
-			divx.style.cssText="left: 250px; top: 400px; width: 150px; height: 100px;background: #DFC; text-align: center;";
-			
+			var randColor="rgb("+Math.round(255*Math.random())+","+Math.round(255*Math.random())+","+Math.round(255*Math.random())+")";
+			//alert(randColor);
+			divx.style.cssText="left: 250px; top: 400px; width: 150px; height: 100px;background:randColor; text-align: center;";
+			divx.style.background="rgb("+Math.round(255*Math.random())+","+Math.round(255*Math.random())+","+Math.round(255*Math.random())+")";
 			
 			divx.id=testid;
 			
@@ -454,9 +467,40 @@ These are based on the object name plus the handle ID.
 			document.getElementById("inp"+i).style.border="0px";
 			}
         };
-        //]]>
+    
+		function saveContent(i){
 		
-    </script>
+		
+		if (document.getElementById("inp"+i)!=null){
+			//alert('a')
+			i++;
+			;
+			saveContent(i)
+			}
+			else
+			{
+			var mess='{"statusContent":[{"inp1":"'+document.getElementById("inp"+1).value+'"';
+			for (var j=2;j<i;j++)
+			{
+			
+			var mess=mess+',"inp'+j+'":"'+document.getElementById("inp"+j).value+'"';
+			
+			}
+			mess=mess+'}]}';
+			alert(mess)
+		
+		}
+		
+		};
+		function delitem(){
+		  
+		   var my = document.getElementById(idx);
+			if (my != null)
+			my.parentNode.removeChild(my);
+		  
+		 
+		};
+	</script>
 
 </head>
 
@@ -468,13 +512,6 @@ These are based on the object name plus the handle ID.
 
     </div>
 
-
-    <!--
-Here's our draggable elements.
-All that's required is that they have a relative or absolute CSS 'position',
-and are matched by the isElement/isHandle methods of a DragResize object.
-Easy!
--->
 
     <div class="drsElement" style="left: 50px; top: 150px; width: 250px; height: 120px;
 background: #CDF; text-align: center">
@@ -493,8 +530,9 @@ background: #FDC; text-align: center">
 background: #DFC; text-align: center">
         视频A
     </div>
-    <button onclick="createDIV(1)">save</button>
-
+    <button onclick="createDIV(1)">new</button>
+	<button onclick="saveContent(1)">save</button>
+	<button onclick="delitem()">delete</button>
     <script type="text/javascript">
        
     </script>
