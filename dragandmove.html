@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <title>DRAG AND RESIZE</title>
+    <title>Personal Table</title>
 
 	<script src="https://code.jquery.com/jquery-3.0.0.js"   integrity="sha256-jrPLZ+8vDxt2FnE1zvZXCkCcebI/C8Dt5xyaQBjxQIo="   crossorigin="anonymous"></script>
     <script>
@@ -115,6 +115,7 @@
         };
 		function getElementId(id){
 			idx=id;
+			window.idx;
 		};
         DragResize.prototype.deselect = function(delHandles) {
             with(this) {
@@ -275,7 +276,7 @@ You can apply to the same tag as drsElement if you want.
 */
         
         .drsMoveHandle {
-            height: 20px;
+            
             background-color: #CCC;
             border-bottom: 1px solid #666;
             cursor: move;
@@ -408,7 +409,8 @@ These are based on the object name plus the handle ID.
 		
 		
 		
-      function createDIV(i) {
+		function createDIV(i) {
+		window.i=i;
 			var testid="div"+i;
 			//alert(i)
 			if (document.getElementById("div"+i)!=null){
@@ -419,7 +421,7 @@ These are based on the object name plus the handle ID.
 			}
 			else
 			{
-			
+			//核心是用div去承载这些不同的dom
 			
             var divx = document.createElement("div"); //创建一个DIV
 			
@@ -436,7 +438,7 @@ These are based on the object name plus the handle ID.
 			
 			//alert(i)
 			
-            divx.innerHTML = "this is a div"+i; //设置div里面的内容
+            divx.innerHTML = "用户面板"+i; //设置div里面的内容
 			
             document.body.appendChild(divx); //主要加上这句，把新建的DIV加到页面上
 			var divy = document.createElement("div"); //创建一个DIV
@@ -445,7 +447,9 @@ These are based on the object name plus the handle ID.
 			
 			var widthdivy=document.getElementById("div"+i).style.width;
 			
-			divy.style.height="79px";
+			divy.style.width="100%";
+			divy.style.height="80%";
+			
 			divy.id="divy"+i;
 			
 			document.getElementById(testid).appendChild(divy);
@@ -454,13 +458,14 @@ These are based on the object name plus the handle ID.
 			
 			var widthinp=document.getElementById("divy"+i).style.width;
 			
+			
 			inp.setAttribute('type', 'text');
 			inp.name="sample";
 			inp.border="0";
-			inp.value="aaaa";
+			inp.value="面板信息";
 			inp.id="inp"+i;
-			inp.style.height="78px" ;
-			inp.style.width="150px";
+			inp.style.height="100%" ;
+			inp.style.width="100%";
 			document.getElementById("divy"+i).appendChild(inp);
 			document.getElementById("inp"+i).style.padding="0px";
 			document.getElementById("inp"+i).style.margin="0px";
@@ -470,7 +475,7 @@ These are based on the object name plus the handle ID.
     
 		function saveContent(i){
 		
-		
+		window.i=i;
 		if (document.getElementById("inp"+i)!=null){
 			//alert('a')
 			i++;
@@ -501,47 +506,9 @@ These are based on the object name plus the handle ID.
 		};
 		
 		
-		
-		function getCookie(c_name)
-{
-if (document.cookie.length>0)
-  {
-  c_start=document.cookie.indexOf(c_name + "=")
-  if (c_start!=-1)
-    { 
-    c_start=c_start + c_name.length+1 
-    c_end=document.cookie.indexOf(";",c_start)
-    if (c_end==-1) c_end=document.cookie.length
-    return unescape(document.cookie.substring(c_start,c_end))
-    } 
-  }
-return ""
-}
 
-function setCookie(c_name,value,expiredays)
-{
-var exdate=new Date()
-exdate.setDate(exdate.getDate()+expiredays)
-document.cookie=c_name+ "=" +escape(value)+
-((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
-}
-
-function checkCookie()
-{
-username=getCookie('username')
-if (username!=null && username!="")
-  {alert('Welcome again '+username+'!')}
-else 
-  {
-  username=prompt('Please enter your name:',"")
-  if (username!=null && username!="")
-    {
-    setCookie('username',username,365)
-    }
-  }
-}
 		
-		function delitem(){
+		function delitem(i,type){
 		  
 		   var my = document.getElementById(idx);
 			if (my != null)
@@ -549,14 +516,181 @@ else
 		  
 		 
 		};
+	
+	
+	
+	
+	
+
+
+
+//获取新数据
+		function getNewData(stockCode)
+		{
+			
+			if(getQueryString('c')!=undefined)
+			{
+				stockCode=getQueryString('c');
+			}
+			
+			alert(stockCode)
+			var type=stockCode==6?1:2;
+			var durl="http://flashquote.stock.hexun.com/Stock_Combo.ASPX?mc="+type+"_"+stockCode+"&dt=T&t="+Math.random();
+			//http://hq.sinajs.cn/list=sh600133
+			
+			$.getScript(durl,function(data){
+				//加载脚本并执行
+				console.log(data);	
+			
+			});
+		}
+//刷新显示
+		function refreshData(code,type,tip,data)
+		{ 
+		 
+			 
+			var result="";
+			result+=code;
+			result+="<br/>昨收";
+			result+= data[1]+'\t开'+data[2]+'\t高'+data[3]+'\t低'+data[4]+'\t现价'+data[5]+'\t';
+			
+			result+='<div style="height:10px;width:100px;"></div>'   
+			 
+			result+='卖5--'+data[24]+'\t\t'+data[25];
+			result+='<br/>卖4--'+data[22]+'\t\t'+data[23];
+			result+='<br/>卖3--'+data[20]+'\t\t'+data[21];
+			result+='<br/>卖2--'+data[18]+'\t\t'+data[19];
+			result+='<br/>卖1--'+data[16]+'\t\t'+data[17];
+				  
+			result+='<div style="height:1px;width:100px; border-top:dashed 1px #CCCCCC"></div>'             
+			result+='买1--'+data[6] +'\t\t'+data[7];
+			result+='<br/>买2--'+data[8] +'\t\t'+data[9];
+			result+='<br/>买3--'+data[10]+'\t\t'+data[11];
+			result+='<br/>买4--'+data[12]+'\t\t'+data[13];
+			result+='<br/>买5--'+data[14]+'\t\t'+data[15];
+			alert(result)
+			document.getElementById("divz"+i).innerHTML=result;
+			//$("divy"+i).html(result);
+		} 
+		//getQueryString获取url参数
+		function getQueryString(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+			var r = window.location.search.substr(1).match(reg);
+			if (r != null) return unescape(r[2]); return null;
+		}
+			
+	
+	
+	
+	
+		function stockPriceCreate(i){
+			window.i=i;
+			var testid="divz"+i;
+			//alert(i)
+			if (document.getElementById("divz"+i)!=null){
+			//alert('a')
+			i++;
+			stockPriceCreate(i);
+			
+			}
+			else
+			{
+			//核心是用div去承载这些不同的dom
+			
+            var divz = document.createElement("div"); //创建一个DIV
+			
+			
+            divz.className = "drsElement drsMoveHandle";
+			var randColor="rgb("+Math.round(255*Math.random())+","+Math.round(255*Math.random())+","+Math.round(255*Math.random())+")";
+			//alert(randColor);
+			
+			divz.style.height="300px";
+			divz.style.cssText="left: 250px; top: 400px; width: 180px; height: 300px;background:randColor; text-align: center;";
+			divz.style.background="rgb("+Math.round(255*Math.random())+","+Math.round(255*Math.random())+","+Math.round(255*Math.random())+")";
+			
+			divz.id="divz"+i;
+			
+			divz.contentEditable="true";
+			
+			//alert(i)
+			
+            divz.innerHTML = "用户面板"+i; //设置div里面的内容
+			
+            document.body.appendChild(divz); //主要加上这句，把新建的DIV加到页面上
+			var divy = document.createElement("div"); //创建一个DIV
+
+			var heightdivy=document.getElementById("divz"+i).style.height;
+			
+			var widthdivy=document.getElementById("divz"+i).style.width;
+			
+			divy.style.width="96%";
+			divy.style.height="100%";
+			
+			divy.id="divy"+i;
+				
+			document.getElementById("divz"+i).appendChild(divy);
+			
+			
+			
+			if (document.getElementById("stockName").value!=undefined)
+			{
+			window.stockCode=document.getElementById("stockName").value;
+			
+			}
+			else
+			{
+			
+			window.stockCode="000001";
+			
+			}
+			getNewData(stockCode);
+			var tg=self.setInterval("getNewData(stockCode)",25);//N毫秒刷新一次，1000毫秒＝1秒
+			
+			
+			
+			
+			
+			
+			
+			}
+		
+		
+		
+		};
+			
+			
+		$(function() {
+        $('#mythingy').contextPopup({
+          title: 'yutiansut-QUANTAXIS·Menu',
+          items: [
+            {label:'新建记事贴',     icon:'icons/shopping-basket.png',             action:function() { createDIV(1) } },
+            {label:'新建表单', icon:'icons/receipt-text.png',                action:function() { alert('clicked 2') } },
+            {label:'新建行情',     icon:'icons/book-open-list.png',              action:function() { alert('clicked 3') } },
+            null, // divider
+            {label:'新建JavaScript策略',         icon:'icons/application-monitor.png',         action:function() { alert('clicked 4') } },
+            {label:'新建监控',        icon:'icons/bin-metal.png',                   action:function() { alert('clicked 5') } },
+            {label:'重置股票池',         icon:'icons/magnifier-zoom-actual-equal.png', action:function() { alert('clicked 6') } },
+            null, // divider
+            {label:'保存当前面板',       icon:'icons/application-table.png',           action:function(){ saveContent(1) }},
+            {label:'删除面板',      icon:'icons/cassette.png',                    action:function() { delitem() } }
+          ]
+        });
+      });
+		
+		
+	
+		
+		
 	</script>
+	<script src="jquery.contextmenu.js"></script> 
+     <link rel="stylesheet" href="jquery.contextmenu.css">
 
 </head>
 
 <body style="font: 13px/20px sans-serif; background-color: #FFF contenteditable:true">
 
     <div style="text-align: center">
-        <h1 style="font: 32px/48px sans-serif">拖拽面板</h1>
+        <h1 style="font: 32px/48px sans-serif">用户仪表盘</h1>
 
 
     </div>
@@ -568,20 +702,41 @@ background: #CDF; text-align: center">
         
     </div>
 
-    <div class="drsElement" style="left: 20px; top: 300px; width: 150px; height: 200px;
+    <div class="drsElement" style="left: 50px; top: 270px; width: 150px; height: 200px;
 background: #FDC; text-align: center">
         <div class="drsMoveHandle">公告</div>
         
     </div>
 
-    <div class="drsElement drsMoveHandle" contentEditable="true" style="left: 150px; top: 280px; width: 50px; height: 100px;
+    <div class="drsElement drsMoveHandle" contentEditable="true" style="left: 200px; top: 270px; width: 100px; height: 200px;
 background: #DFC; text-align: center">
-        说明
+        说明<br><br>
+		<span>通过新建用户自定义面板 可以记载数据  同时可以保存和删除面板<span>
     </div>
-    <button onclick="createDIV(1)">new</button>
-	<button onclick="saveContent(1)">save</button>
-	<button onclick="delitem()">delete</button>
+	
+	
+    <button onclick="createDIV(1)">新建</button>
+	<button onclick="saveContent(1)">保存</button>
+	<button onclick="delitem()">删除</button>
+	
+	<button onclick="stockPriceCreate(1)">SuperCreate</button>
+	<input id="stockName" ></input>
+	
+	
+	
+	<div id="mythingy" class="m" style="top:0px;width:100%;height:1000px ;z-index:2"></div>
     <script type="text/javascript">
+		document.onkeydown = function(){
+			var oEvent = window.event; 
+
+				if (oEvent.keyCode == 8 || oEvent.keyCode == 46) { 
+				//删除
+				delitem()
+			}}
+
+		
+		
+	
 		
     </script>
 
